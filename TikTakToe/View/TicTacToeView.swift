@@ -16,35 +16,87 @@ struct TicTacToeView: View {
     
     @State var player1: String
     @State var player2: String
+    @State private var tapCount = 0
+    @State private var matchWin = 0
+    
+    private var turnText: String {
+        if tapCount == 9 && !isWin{
+               return "Draw"
+           } else {
+               return "Player Turn: \(playerTurn ? player2 : player1)"
+           }
+       }
+       
+       private var winText: String {
+           if isWin {
+               return "Winner: \(!playerTurn ? player2 : player1)"
+           } else {
+               return ""
+           }
+       }
+    
+    @State private var scoreP1: Int = 0
+    @State private var scoreP2: Int = 0
+
+    private func updateScores() {
+        if isWin {
+            if playerTurn {
+                scoreP1 += 1
+            } else {
+                scoreP2 += 1
+            }
+        }
+    }
+
     
     var body: some View {
-
-        let turnText = "Player Turn: \(playerTurn ? "\(player2)":"\(player1)")"
-        
-        let winText = "Winner: \(!playerTurn ? "\(player2)":"\(player1)")"
-   
+ 
         VStack {
             
             HStack{
-                Text("\(player1)")
-                    .foregroundStyle(.blue)
+                VStack{
+                    Text("\(player1)")
+                        .foregroundStyle(.blue)
+                        .frame(width: 120)
+                    
+                    Text("\(scoreP1)")
+                        .foregroundStyle(.blue)
+                        .frame(width: 120)
+                }
+                
                 Spacer()
                 
                 Text("VS")
                 Spacer()
                 
-                Text("\(player2)")
-                    .foregroundStyle(.red)
+                VStack{
+                    Text("\(player2)")
+                        .foregroundStyle(.red)
+                        .frame(width: 120)
+                    
+                    Text("\(scoreP2)")
+                        .foregroundStyle(.red)
+                        .frame(width: 120)
+                }
             }
-            .font(.custom("verdana", size: 24))
+            .font(.custom("verdana", size: 16))
             .bold()
             .padding(.horizontal, 20)
             
-            Text(isWin ? winText : turnText)
-                .foregroundColor(.mint)
-                .font(.custom("verdana", size: 24))
-                .bold()
-                .padding(30)
+            if isWin{
+                Text(winText)
+                    .foregroundColor(.mint)
+                    .font(.custom("verdana", size: 20))
+                    .bold()
+                    .padding(30)
+            }else {
+                Text(turnText)
+                    .foregroundColor(playerTurn ? .red : .blue)
+                    .font(.custom("verdana", size: 16))
+                    .bold()
+                    .padding(30)
+            }
+           
             
             ZStack {
                 // Background
@@ -83,52 +135,52 @@ struct TicTacToeView: View {
                 case 0:
                     Rectangle()
                         .frame(width: 2, height: 360)
-                        .foregroundStyle(.red)
+                        .foregroundStyle(.mint)
                         .position(x: 60, y: 180)
                     
                 case 1:
                     Rectangle()
                         .frame(width: 2, height: 360)
-                        .foregroundStyle(.red)
+                        .foregroundStyle(.mint)
                         .position(x: 180, y: 180)
                     
                 case 2:
                     Rectangle()
                         .frame(width: 2, height: 360)
-                        .foregroundStyle(.red)
+                        .foregroundStyle(.mint)
                         .position(x: 300, y: 180)
                     
                 case 3:
                     //2.Horizontal
                     Rectangle()
                         .frame(width: 360, height: 2)
-                        .foregroundStyle(.red)
+                        .foregroundStyle(.mint)
                         .position(x: 180, y: 180)
                     
                 case 4:
                     Rectangle()
                         .frame(width: 360, height: 2)
-                        .foregroundStyle(.red)
+                        .foregroundStyle(.mint)
                         .position(x: 180, y: 60)
                     
                 case 5:
                     Rectangle()
                         .frame(width: 360, height: 2)
-                        .foregroundStyle(.red)
+                        .foregroundStyle(.mint)
                         .position(x: 180, y: 300)
                     
                 case 6:
                     //3. Diagonal
                     Rectangle()
                         .frame(width: 2, height: 510)
-                        .foregroundStyle(.red)
+                        .foregroundStyle(.mint)
                         .position(x: 180, y: 180)
                         .rotationEffect(.degrees(45))
                     
                 case 7:
                     Rectangle()
                         .frame(width: 2, height: 510)
-                        .foregroundStyle(.red)
+                        .foregroundStyle(.mint)
                         .position(x: 180, y: 180)
                         .rotationEffect(.degrees(-45))
                     
@@ -141,8 +193,9 @@ struct TicTacToeView: View {
                     if playAgain {
                         Text("")
                     }else {
+                        
                         Text(val)
-                            .foregroundColor(.blue)
+                            .foregroundColor(val == "X" ? .blue : .red)
                             .bold()
                             .position(positionX(block: index+1))
                             .font(.custom("verdana", size: 30))
@@ -151,6 +204,9 @@ struct TicTacToeView: View {
             }
             .frame(width: 360, height: 360)
             .onTapGesture { points in
+                
+                tapCount += 1
+                print("TapCount - \(tapCount)")
                 
                 if !isWin {
                     if points.x <= 120 && points.y <= 120 {
@@ -217,7 +273,6 @@ struct TicTacToeView: View {
                         }
                     }
                 }
-                
                 checkIfWinner()
             }
             
@@ -225,13 +280,14 @@ struct TicTacToeView: View {
                 withAnimation(.snappy) {
                     playAgain = true
                     checkIfWinner()
+                    tapCount = 0
                 }
             }
-            .frame(width: 150, height: 50)
+            .frame(width: 120, height: 40)
             .background(Color.mint)
             .foregroundColor(.white)
             .cornerRadius(15)
-            .font(.custom("verdana", size: 20))
+            .font(.custom("verdana", size: 16))
             .bold()
             .padding(30)
             
@@ -242,10 +298,6 @@ struct TicTacToeView: View {
     func checkIfWinner(){
         //Check if win
         //1,2,3
-        print(textString[0])
-        print(textString[4])
-        
-        print(textString[8])
         if (textString[0] != ""){
             if (textString[0] == textString[1] && textString[0] == textString[2]){
                 
@@ -312,6 +364,8 @@ struct TicTacToeView: View {
         
         ///Mark :- restart game
         if playAgain {
+            updateScores()
+            
             for i in 0...8{
                 textString[i] = ""
             }
@@ -350,10 +404,10 @@ struct TicTacToeView: View {
             return CGPoint(x: 300, y: 300)
             
         default:
-
             return CGPoint(x: x, y: y)
         }
     }
+    
 }
 
 // A custom struct to store each point with a unique ID
