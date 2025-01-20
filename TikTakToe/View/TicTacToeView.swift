@@ -3,7 +3,6 @@ import CoreGraphics
 
 struct TicTacToeView: View {
     @State private var points: [DrawablePoint] = []
-    
     @State private var x: CGFloat = 60
     @State private var y: CGFloat = 60
     @State private var playerTurn = false
@@ -15,16 +14,38 @@ struct TicTacToeView: View {
     @State var playAgain = false
     @State var crossLine: Int = -1
     
+    @State var player1: String
+    @State var player2: String
+    
     var body: some View {
 
-        let turnText = "Player Turn: \(playerTurn ? "O":"X")"
-        let winText = "Winner: \(!playerTurn ? "O":"X")"
+        let turnText = "Player Turn: \(playerTurn ? "\(player2)":"\(player1)")"
+        
+        let winText = "Winner: \(!playerTurn ? "\(player2)":"\(player1)")"
    
         VStack {
             
+            HStack{
+                Text("\(player1)")
+                    .foregroundStyle(.blue)
+                Spacer()
+                
+                Text("VS")
+                Spacer()
+                
+                Text("\(player2)")
+                    .foregroundStyle(.red)
+            }
+            .font(.custom("verdana", size: 24))
+            .bold()
+            .padding(.horizontal, 20)
+            
             Text(isWin ? winText : turnText)
-                .font(.largeTitle)
+                .foregroundColor(.mint)
+                .font(.custom("verdana", size: 24))
+                .bold()
                 .padding(30)
+            
             ZStack {
                 // Background
                 Color.white
@@ -121,8 +142,10 @@ struct TicTacToeView: View {
                         Text("")
                     }else {
                         Text(val)
+                            .foregroundColor(.blue)
+                            .bold()
                             .position(positionX(block: index+1))
-                            .font(.largeTitle)
+                            .font(.custom("verdana", size: 30))
                     }
                 }
             }
@@ -199,17 +222,21 @@ struct TicTacToeView: View {
             }
             
             Button("Play Again"){
-                playAgain = true
-                checkIfWinner()
+                withAnimation(.snappy) {
+                    playAgain = true
+                    checkIfWinner()
+                }
             }
-            .frame(width: 120, height: 50)
-            .background(Color.blue)
+            .frame(width: 150, height: 50)
+            .background(Color.mint)
             .foregroundColor(.white)
             .cornerRadius(15)
+            .font(.custom("verdana", size: 20))
+            .bold()
             .padding(30)
             
-            
         }
+        .navigationBarBackButtonHidden(true)
     }
     
     func checkIfWinner(){
@@ -336,5 +363,5 @@ struct DrawablePoint: Identifiable {
 }
 
 #Preview {
-    TicTacToeView()
+    TicTacToeView(player1: "player1", player2: "player2")
 }

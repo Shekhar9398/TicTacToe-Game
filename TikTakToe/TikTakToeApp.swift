@@ -6,7 +6,7 @@ import SwiftUI
 struct TikTakToeApp: App {
     var body: some Scene {
         WindowGroup {
-            TicTacToeView()
+            LoadingView()
         }
     }
 }

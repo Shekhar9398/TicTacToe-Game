@@ -11,6 +11,7 @@
 		F4E1FCCD2D39187C0054121B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4E1FCCC2D39187C0054121B /* Assets.xcassets */; };
 		F4E1FCD02D39187C0054121B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4E1FCCF2D39187C0054121B /* Preview Assets.xcassets */; };
 		F4E1FCD72D391D090054121B /* TicTacToeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E1FCD62D391D090054121B /* TicTacToeView.swift */; };
+		F4FAE58B2D3A9015002FE822 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FAE58A2D3A9015002FE822 /* LoadingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		F4E1FCCC2D39187C0054121B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F4E1FCCF2D39187C0054121B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F4E1FCD62D391D090054121B /* TicTacToeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeView.swift; sourceTree = "<group>"; };
+		F4FAE58A2D3A9015002FE822 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 		F4FAE5892D3A8E4B002FE822 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F4FAE58A2D3A9015002FE822 /* LoadingView.swift */,
 				F4E1FCD62D391D090054121B /* TicTacToeView.swift */,
 			);
 			path = View;
@@ -147,6 +150,7 @@
 			files = (
 				F4E1FCD72D391D090054121B /* TicTacToeView.swift in Sources */,
 				F4E1FCC92D39187B0054121B /* TikTakToeApp.swift in Sources */,
+				F4FAE58B2D3A9015002FE822 /* LoadingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
